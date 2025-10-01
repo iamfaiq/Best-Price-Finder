@@ -1,12 +1,14 @@
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
+import java.util.stream.Collectors;
+
 public class Main {
     public static void main(String[] args) {
         var service = new FlightService();
         //this returns a completable future
-        service.getQuote("Site A").thenAccept(System.out::println);
+        service.getQuotes()
+                .map(future -> future.thenAccept(System.out::println))
+                .collect(Collectors.toList());
 
-        //3 seconds delay to allow the completion of above program
-        TaskDelay.simulate(3000);
+        //5 seconds delay to allow the completion of above program
+        TaskDelay.simulate(5_000);
     }
 }
